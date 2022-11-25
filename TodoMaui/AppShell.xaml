@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="TodoMaui.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:TodoMaui.Views"
+    Shell.FlyoutBehavior="Disabled">
+
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate local:LoginPage}"
+        Route="Login" />
+
+    <ShellContent
+        Title="Main"
+        ContentTemplate="{DataTemplate local:Dashboard}"
+        Route="Main" />
+
+</Shell>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TodoMaui.ViewModels"
+             x:DataType="vm:DashboardVM"
+             xmlns:models="clr-namespace:TodoMaui.Models"
+             xmlns:local="clr-namespace:TodoMaui.Views"
+             x:Name="dashb"
+             BackgroundColor="{StaticResource Tertiary}"
+             x:Class="TodoMaui.Views.Dashboard"
+             Title="">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Sign out" Command="{Binding SignOutCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <VerticalStackLayout Padding="30,20" Spacing="20" VerticalOptions="Center" Margin="0, 10, 0, 0" >
+                <VerticalStackLayout Margin="0, 0, 0, 15">
+                    <Image Source="todologo.svg"/>
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*, 100">
+                    <Frame Padding="10, 5" Grid.Column="0" Margin="0, 0, 10, 0">
+                        <Entry Placeholder="Todo item" Text="{Binding TodoEntryText}" TextColor="#333"/>
+                    </Frame>
+                    <Button Text="Add" Command="{Binding AddTodoCommand}" Grid.Column="1"  TextColor="#eee" BackgroundColor="{StaticResource Primary}" IsEnabled="{Binding IsNotBusy}"/>
+                </Grid>
+                <VerticalStackLayout>
+                    <RefreshView  Command="{Binding GetTodosCommand}" IsRefreshing="{Binding IsRefreshing}">
+                        <CollectionView ItemsSource="{Binding TodoList}">
+                            <CollectionView.EmptyView>
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding EmptyText}" FontSize="Medium" TextColor="#eee"/>
+                                </VerticalStackLayout>
+
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Todo">
+                                    <Frame Padding="15, 10" Margin="0, 0, 0, 17" BackgroundColor="#C6E4F5">
+                                        <Grid ColumnDefinitions="*, auto, auto">
+                                            <HorizontalStackLayout>
+                                                <CheckBox IsChecked="{Binding Completed}">
+                                                    <CheckBox.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                         Command="{Binding Path=BindingContext.CheckTodoCommand, Source={x:Reference Name=dashb}}"
+                                                            CommandParameter="{Binding .}"/>
+                                                    </CheckBox.GestureRecognizers>
+                                                </CheckBox>
+                                                <Label WidthRequest="150" LineBreakMode="WordWrap" Text="{Binding Name}" FontSize="Medium" Grid.Column="1" VerticalOptions="Center" TextColor="{StaticResource Primary}">
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                         Command="{Binding Path=BindingContext.CheckTodoCommand, Source={x:Reference Name=dashb}}"
+                                                            CommandParameter="{Binding .}"/>
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </HorizontalStackLayout>
+                                            <Button Grid.Column="1" Text="Edit" IsEnabled="{Binding Path=BindingContext.IsNotBusy, Source={x:Reference Name=dashb}}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DashboardVM}}, Path=EditTodoCommand}"
+                                               CommandParameter="{Binding .}" Margin="0, 10, 10, 10" VerticalOptions="Center"/>
+                                            <Button Grid.Column="2" Text="Delete" BackgroundColor="{StaticResource Tertiary}" TextColor="#eee"
+                                            IsEnabled="{Binding Path=BindingContext.IsNotBusy, Source={x:Reference Name=dashb}}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DashboardVM}}, Path=DeleteTaskCommand}"
+                                               CommandParameter="{Binding .}" Margin="0, 10" VerticalOptions="Center"/>
+                                        </Grid>
+
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            
+                        </CollectionView>
+
+                    </RefreshView>
+                </VerticalStackLayout>
+
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+    </ContentPage.Content>
+
+
+</ContentPage>

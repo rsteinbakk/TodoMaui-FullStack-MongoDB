@@ -9,7 +9,7 @@ namespace TodoMaui
     public static class AppConfig
 
     {
-        public const string RealmAppId = "";
+        public const string RealmAppId = ""; // ADD YOUR APP ID HERE TO MAKE IT WORK mongodb atlas realm
 
     }
 }
